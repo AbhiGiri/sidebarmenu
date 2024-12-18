@@ -1,7 +1,6 @@
 
 import "../styles/globals.css";
 import SidebarWrapper from "@/components/SidebarWrapper";
-import { ThemeProvider } from "./contexts/theme-provider";
 
 export const metadata = {
   title: "Dashboard App",
@@ -16,12 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex">
-        <ThemeProvider>
           <SidebarWrapper />
           <main className="flex-1 p-4">
             {children}
           </main>
-        </ThemeProvider>
       </body>
     </html>
   );

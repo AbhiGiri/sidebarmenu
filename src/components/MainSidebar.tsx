@@ -10,15 +10,17 @@ type MainSidebarProps = {
 };
 
 export default function MainSidebar({ onMenuClick, activeMenu }: MainSidebarProps) {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") === "dark" || 
-             (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    }
-    return false;
-  });
+  const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Read user's preference on the client
+    const userPrefersDark = localStorage.getItem("theme") === "dark" || 
+      (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    setIsDarkMode(userPrefersDark);
+  }, []);
+
+  useEffect(() => {
+    if (isDarkMode === null) return; // Don't apply changes until state is determined
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -53,7 +55,7 @@ export default function MainSidebar({ onMenuClick, activeMenu }: MainSidebarProp
           onClick={toggleDarkMode}
           className="p-3 text-2xl rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
           aria-label="Toggle Dark Mode"
-          aria-pressed={isDarkMode}
+          aria-pressed={isDarkMode ?? false} 
         >
           {isDarkMode ? <FiSun /> : <FiMoon />}
         </button>
