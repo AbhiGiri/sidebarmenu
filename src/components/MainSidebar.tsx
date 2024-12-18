@@ -13,14 +13,13 @@ export default function MainSidebar({ onMenuClick, activeMenu }: MainSidebarProp
   const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Read user's preference on the client
     const userPrefersDark = localStorage.getItem("theme") === "dark" || 
       (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
     setIsDarkMode(userPrefersDark);
   }, []);
 
   useEffect(() => {
-    if (isDarkMode === null) return; // Don't apply changes until state is determined
+    if (isDarkMode === null) return; 
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
